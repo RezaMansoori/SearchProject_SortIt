@@ -1,0 +1,5 @@
+green, red, blue, 3
+green, blue, red ,3
+blue, red,  3
+green, 3
+3

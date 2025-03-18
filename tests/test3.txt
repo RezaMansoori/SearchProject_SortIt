@@ -1,0 +1,5 @@
+green, green, 6
+yellow,yellow,yellow,yellow,green ,10
+red,red ,red,6
+5
+green,green,red, red, red, blue, blue,blue,blue,blue, 10
