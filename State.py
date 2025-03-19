@@ -24,7 +24,25 @@ class State:
         return 0
 
     def h_n(self):
-        pass
+        count = 0
+        for pipe in self.pipes:
+            if pipe.is_empty():
+                continue
+            first_color = pipe.stack[0]
+            is_misplaced = False
+            for ball in pipe.stack:
+                if ball != first_color:
+                    is_misplaced = True
+                if is_misplaced:
+                    if ball == 'red':
+                        count += 1
+                    elif ball == 'blue':
+                        count += 3
+                    elif ball == 'green':
+                        count += 5
+                    elif ball == 'yellow':
+                        count += 7
+        return count
 
     def f_n(self):
         return self.g_n + self.h_n()

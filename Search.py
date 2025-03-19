@@ -25,7 +25,28 @@ class Search:
         stack = []
         state = prb.initState
         stack.insert(0, state)
-        stack_hash = set()
+        while len(stack) > 0:
+            # pop state from stack
+            state = stack.pop(0)
+            
+            # check if state is goal
+            if prb.is_goal(state):
+                return Solution(state, prb, start_time)
+            
+            # get neighbors
+            neighbors = prb.successor(state)
+            
+            # add neighbors to stack
+            for c in neighbors:
+                stack.insert(0, c)
+
+        return None
+    
+    def dfs_with_explore(prb: Problem) -> Solution:
+        start_time = datetime.now()
+        stack = []
+        state = prb.initState
+        stack.insert(0, state)
         visited_hash = set()
         while len(stack) > 0:
             # pop state from stack
@@ -43,42 +64,10 @@ class Search:
             
             # add neighbors to stack
             for c in neighbors:
-                if c.__hash__() not in visited_hash and c.__hash__() not in stack_hash:
-                    stack.insert(0, c)
-                    stack_hash.add(c.__hash__())
-
-        return None
-    
-    def dfs_with_explore(prb: Problem) -> Solution:
-        start_time = datetime.now()
-        backtrack = []
-        state = prb.initState
-        backtrack.insert(0, state)
-        visited_hash = set()
-        while len(backtrack) > 0:
-            # pop state from stack
-            state = backtrack.pop(0)
-
-            # check if state is goal
-            if prb.is_goal(state):
-                return Solution(state, prb, start_time)
-            
-            # add state to visited hash
-            if state.__hash__() not in visited_hash:
-                visited_hash.add(state.__hash__())
-
-            # get neighbors
-            neighbors = prb.successor(state)
-
-            # add neighbors to stack
-            for c in neighbors:
                 if c.__hash__() not in visited_hash:
-                    backtrack.insert(0, state)
-                    backtrack.insert(0, c)
-                    break
-                
+                    stack.insert(0, c)
+
         return None
-            
         
     def ids(prb: Problem) -> Solution:
         start_time = datetime.now()
@@ -127,6 +116,7 @@ class Search:
         
     def ucs(prb: Problem) -> Solution:
         start_time = datetime.now()
+        prb.set_path_cost([7, 5, 3, 1])
         pq = PriorityQueue()
         state = prb.initState
         pq.put((0,state))
@@ -180,9 +170,48 @@ class Search:
         return None
         
     def greedy_bfs(prb: Problem) -> Solution:
-        pass
+        start_time = datetime.now()
+        pq = PriorityQueue()
+        state = prb.initState
+        pq.put((0,state))
+        while pq.qsize() > 0:
+            # pop state from priority queue
+            cost, state = pq.get()
+
+            # check if state is goal
+            if prb.is_goal(state):
+                return Solution(state, prb, start_time)
+            
+            # get neighbors
+            neighbors = prb.successor(state)
+            
+            # add neighbors to priority queue
+            for c in neighbors:
+                pq.put((c.h_n(), c))
+        return None
+        
     def a_star(prb: Problem) -> Solution:
-        pass
+        start_time = datetime.now()
+        prb.set_path_cost([1, 3, 5, 7])
+        pq = PriorityQueue()
+        state = prb.initState
+        pq.put((0,state))
+        while pq.qsize() > 0:
+            # pop state from priority queue
+            cost, state = pq.get()
+
+            # check if state is goal
+            if prb.is_goal(state):
+                return Solution(state, prb, start_time)
+            
+            # get neighbors
+            neighbors = prb.successor(state)
+            
+            # add neighbors to priority queue
+            for c in neighbors:
+                pq.put((c.f_n(), c))
+        return None
+    
     def ida_star(prb: Problem) -> Solution:
         pass
     def rbfs(prb: Problem) -> Solution:

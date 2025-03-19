@@ -6,7 +6,7 @@ from Action import Action
 
 class Problem:
     def __init__(self, *args):
-        self.path_cost = [7, 5, 3, 1]
+        self.path_cost = [1, 1, 1, 1]
         if type(args[0]) == State:
             self.initState = args[0]
         else:
