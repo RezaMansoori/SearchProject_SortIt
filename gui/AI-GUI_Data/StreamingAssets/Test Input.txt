@@ -1,10 +1,10 @@
 p1=GG,p2=YYYYG,p3=RRR,p4=E,p5=GGRRRBBBBB
 P5,p4
 P5,p4
+P5,p4
+P5,p4
+P5,p4
+P5,p3
+P5,p3
+P5,p3
 P2,p1
-P5,p4
-P5,p4
-P5,p4
-P5,p3
-P5,p3
-P5,p3

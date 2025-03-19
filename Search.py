@@ -116,57 +116,28 @@ class Search:
         
     def ucs(prb: Problem) -> Solution:
         start_time = datetime.now()
-        prb.set_path_cost([7, 5, 3, 1])
+        prb.set_path_cost([1, 3, 5, 7])
         pq = PriorityQueue()
         state = prb.initState
         pq.put((0,state))
-        arr = [0, 0, 0, 0, 0, 
-               0, 0, 0, 0, 0,
-                
-               0, 0, 0, 0, 0, 
-               0, 0, 0, 0, 0, 
-               
-               0, 0, 0, 0, 0, 
-               0, 0, 0, 0, 0,
-               
-               0, 0, 0, 0, 0,
-               0, 0, 0, 0, 0,
-               
-               0, 0, 0, 0, 0]
-        arr2 = [0, 0, 0, 0, 0, 
-               0, 0, 0, 0, 0,
-                
-               0, 0, 0, 0, 0, 
-               0, 0, 0, 0, 0, 
-               
-               0, 0, 0, 0, 0, 
-               0, 0, 0, 0, 0,
-               
-               0, 0, 0, 0, 0,
-               0, 0, 0, 0, 0,
-               
-               0, 0, 0, 0, 0]
+        reached = {state.__hash__() : 0}
         while pq.qsize() > 0:
             # pop state from stack
             cost, state = pq.get()
-            arr2[cost] -= 1
-            print(f"\nState:\n{cost}")
+
             # check if state is goal
             if prb.is_goal(state):
+                print(f"Cost: {cost}")
                 return Solution(state, prb, start_time)
             
             # get neighbors
             neighbors = prb.successor(state)
             
             # add neighbors to stack
-            print("Neighbors:")
             for c in neighbors:
-                # print(c.__hash__())
-                print(c.g_n)
-                if c.g_n < 45:
-                    arr[c.g_n] += 1
-                    arr2[c.g_n] += 1
-                pq.put((c.g_n, c))
+                if c.__hash__() not in reached or c.g_n < reached[c.__hash__()]:
+                    pq.put((c.g_n, c))
+                    reached[c.__hash__()] = c.g_n
         return None
         
     def greedy_bfs(prb: Problem) -> Solution:
