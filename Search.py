@@ -184,6 +184,39 @@ class Search:
         return None
     
     def ida_star(prb: Problem) -> Solution:
-        pass
+        start_time = datetime.now()
+        prb.set_path_cost([1, 3, 5, 7])
+        l = 0
+        cutoff = prb.initState.f_n()
+        min_cost = []
+        while True:
+            pq = PriorityQueue()
+            state = prb.initState
+            pq.put((state.f_n(),state))
+            while pq.qsize() > 0:
+                # pop state from priority queue
+                cost, state = pq.get()
+
+                # check if state is over cutoff
+                if cost > cutoff:
+                    min_cost.append(cost)
+                    continue
+
+                # check if state is goal
+                if prb.is_goal(state):
+                    return Solution(state, prb, start_time)
+                
+                # get neighbors
+                neighbors = prb.successor(state)
+                
+                # add neighbors to priority queue
+                for c in neighbors:
+                    pq.put((c.f_n(), c))
+            cutoff = min(min_cost)
+            l += 1
+            if l == 1000:
+                break
+        return None
+    
     def rbfs(prb: Problem) -> Solution:
         pass
